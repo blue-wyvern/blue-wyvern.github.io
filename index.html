@@ -55,6 +55,7 @@
       cursor: pointer;
       z-index: 100;
     }
+    
     #editorModal {
       display: none;
       position: fixed;
@@ -89,6 +90,7 @@
       padding: 6px 12px;
       cursor: pointer;
     }
+    
     #overlay {
       display: none;
       position: fixed;
@@ -97,6 +99,7 @@
       background: rgba(0, 0, 0, 0.7);
       z-index: 999;
     }
+    
     #customFileLabel, #extractButton, #insertButton {
       display: inline-block;
       background-color: #0771eb;
@@ -106,6 +109,7 @@
       border: none;
       font-size: 14px;
     }
+   
     #fileNameDisplay {
       display: inline-block;
       margin-left: -3px;
@@ -155,6 +159,7 @@
       font-family: monospace;
       cursor: pointer;
     }
+
   </style>
 </head>
 <body>
@@ -203,29 +208,26 @@
 
   const reader = new FileReader();
   reader.onload = function (e) {
-    // Samakan newline ke \n
     const text = e.target.result.replace(/\r\n/g, '\n');
     const lines = text.split('\n');
 
     const entries = [];
-    let buf = null; // buffer untuk item aktif
+    let buf = null;
 
     for (const line of lines) {
-      const m = line.match(/^\s*>\s?(.*)$/); // baris mulai item baru
+      const m = line.match(/^\s*\d+\.\s?(.*)$/); // baris diawali angka.
       if (m) {
-        if (buf !== null) entries.push(buf); // push item sebelumnya
-        buf = m[1]; // mulai item baru tanpa tanda '>'
+        if (buf !== null) entries.push(buf);
+        buf = m[1]; // mulai item baru tanpa angka
       } else {
         if (buf === null) {
-          // Jika file diawali baris tanpa '>', jadikan item pertama
           buf = line;
         } else {
-          // Lanjutan item sebelumnya (pertahankan newline)
           buf += '\n' + line;
         }
       }
     }
-    if (buf !== null) entries.push(buf); // push item terakhir
+    if (buf !== null) entries.push(buf);
 
     const n = Math.min(texts.length, entries.length);
     for (let i = 0; i < n; i++) {
@@ -282,10 +284,8 @@ document.getElementById("scrollDown").style.display = "inline-block";
     const slice = data.slice(index + 2, index + 2 + length);
 
     try {
-      // Coba decode secara ketat
       let text = new TextDecoder('utf-8', { fatal: true }).decode(slice);
 
-      // Tambahan: Hindari string yang mengandung karakter non-printable
       if (!isValidString(slice)) {
         index++;
         continue;
@@ -294,7 +294,6 @@ document.getElementById("scrollDown").style.display = "inline-block";
       texts.push({ index, length, text });
       index += 2 + length;
     } catch (e) {
-      // Jika decode gagal (karena byte tidak valid UTF-8), abaikan
       index++;
     }
   }
@@ -341,27 +340,21 @@ document.getElementById("scrollDown").style.display = "inline-block";
   let currentTextIndex = 0;
 
   texts.forEach(({ index, length, text }) => {
-    // Salin semua byte sebelum blok teks (yang belum disentuh)
     while (lastPos < index) {
       result.push(binaryData[lastPos++]);
     }
 
-    // Encode teks baru
     const encoded = new TextEncoder().encode(text);
     const len = encoded.length;
 
-    // Tambahkan length baru (2 byte)
     result.push((len >> 8) & 0xff);
     result.push(len & 0xff);
 
-    // Tambahkan isi string baru
     result.push(...encoded);
 
-    // Update posisi terakhir: lewati teks lama
     lastPos = index + 2 + length;
   });
 
-  // Tambahkan sisa byte (setelah blok teks terakhir)
   while (lastPos < binaryData.length) {
     result.push(binaryData[lastPos++]);
   }
@@ -391,7 +384,7 @@ function scrollToBottom() {
 }
 
 function extractToTxt() {
-  let output = texts.map(item => `> ${item.text}`).join("\n");
+  let output = texts.map((item, idx) => `${idx + 1}. ${item.text}`).join("\n");
   let blob = new Blob([output], { type: "text/plain;charset=utf-8" });
   let link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
