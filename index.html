@@ -23,21 +23,6 @@
       background-color: transparent;
       padding-bottom: 10px;
     }
-    #navLinks {
-      margin: 5px 0 12px 0;
-      padding: 0 0 4px 0;
-      display: flex;
-      gap: 10px;
-    }
-    #navLinks a {
-      color: #45cfff;
-      text-decoration: underline;
-      font-size: 13px;
-      transition: color 0.2s;
-    }
-    #navLinks a:hover {
-      color: #ffffff;
-    }
     input[type="file"] {
       margin-bottom: 10px;
       border: none;
@@ -134,7 +119,7 @@
     }
     #description {
       color: #fff;
-      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     #searchContainer {
       display: flex;
@@ -181,8 +166,7 @@
       padding: 0;
     }
     h1, h3 {
-      margin: 0 0 8px 0;
-      padding: 0;
+      margin: 0;
     }
   </style>
 </head>
@@ -190,14 +174,9 @@
   <div class="sticky-header">
     <h1>Blue Wyvern</h1>
     <div id="description">J2ME Text Editor</div>
-    <nav id="navLinks">
-      <a href="#apa-ini">Apa ini?</a>
-      <a href="#cara-menggunakan">Cara menggunakan</a>
-    </nav>
     <label for="fileInput" id="customFileLabel">Pilih File</label>
     <input type="file" id="fileInput" accept=".bin" style="display: none;" />
     <span id="fileNameDisplay">Tidak ada file yang dipilih</span>
-    <span id="fileInstruction">Silakan pilih file BIN J2ME yang akan diedit.</span>
     <input type="file" id="txtInput" accept=".txt" style="display:none;" />
     <p>
       <button id="extractButton" onclick="extractToTxt()" style="display:none;">Ekstrak ke TXT</button>
@@ -264,7 +243,7 @@
       if (file) {
         document.getElementById('fileNameDisplay').textContent = file.name;
         // Sembunyikan instruksi setelah file diunggah
-        document.getElementById('fileInstruction').style.display = "none";
+        // document.getElementById('fileInstruction').style.display = "none"; // baris ini dikomentari/diabaikan karena #fileInstruction sudah dihapus
         readFile(file);
       }
     });
