@@ -5,15 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Blue Wyvern - J2ME Text Editor Online</title>
   <meta name="description" content="Blue Wyvern adalah editor online untuk mengedit file teks pada game atau aplikasi J2ME.">
-   <meta name="keywords" content="J2ME, Text Editor, BIN Editor, Blue Wyvern, Game Editing">
-   <meta name="author" content="Blue Wyvern">
+  <meta name="keywords" content="J2ME, Text Editor, BIN Editor, Blue Wyvern, Game Editing">
+  <meta name="author" content="Blue Wyvern">
   <style>
     body {
-      font-family: monospace;
-      margin: 20px;
+      margin: 10px;
       background-color: #000000;
       color: #0771eb;
-      padding-bottom: 80px;
+      padding-bottom: 10px;
       width: 90%;
       height: auto;
     }
@@ -24,38 +23,51 @@
       background-color: transparent;
       padding-bottom: 10px;
     }
+    #navLinks {
+      margin: 5px 0 12px 0;
+      padding: 0 0 4px 0;
+      display: flex;
+      gap: 10px;
+    }
+    #navLinks a {
+      color: #45cfff;
+      text-decoration: underline;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+    #navLinks a:hover {
+      color: #ffffff;
+    }
     input[type="file"] {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       border: none;
-      padding: 6px 12px;
+      padding: 6px 10px;
       cursor: pointer;
     }
     .text-item {
       border-bottom: 1px solid #0771eb;
-      padding: 8px;
+      padding: 8px 0px;
       cursor: pointer;
     }
     .text-item:hover {
       background-color: #111111;
     }
     .text-index {
-      margin-right: 10px;
+      margin-right: 8px;
       font-weight: bold;
     }
     #saveButton {
       position: fixed;
       bottom: 10px;
       left: 5%;
-      padding: 10px 20px;
+      padding: 8px 10px;
       font-size: 16px;
-      font-family: monospace;
       background-color: #0771eb;
       color: #ffffff;
       border: none;
       cursor: pointer;
       z-index: 100;
     }
-    
     #editorModal {
       display: none;
       position: fixed;
@@ -63,7 +75,7 @@
       left: 50%;
       transform: translateX(-50%);
       background-color: transparent;
-      padding: 20px;
+      padding: 10px;
       z-index: 1000;
       width: 80%;
       max-width: 600px;
@@ -75,22 +87,20 @@
       color: #0771eb;
       background-color: transparent;
       border: 1px solid #0771eb;
-      padding: 8px;
+      padding: 8px 8px;
     }
     #editorModal textarea:focus {
       outline: none;
     }
     #editorModal button {
-      margin-top: 10px;
-      margin-right: 10px;
-      font-family: monospace;
+      margin-top: 5px;
+      margin-right: 6px;
       background-color: #0771eb;
       color: #ffffff;
       border: none;
-      padding: 6px 12px;
+      padding: 6px 10px;
       cursor: pointer;
     }
-    
     #overlay {
       display: none;
       position: fixed;
@@ -99,39 +109,44 @@
       background: rgba(0, 0, 0, 0.7);
       z-index: 999;
     }
-    
     #customFileLabel, #extractButton, #insertButton {
       display: inline-block;
       background-color: #0771eb;
       color: #ffffff;
-      padding: 6px 12px;
+      padding: 6px 10px;
       cursor: pointer;
       border: none;
       font-size: 14px;
+      margin-right: 4px;
+      margin-bottom: 8px;
     }
-   
     #fileNameDisplay {
       display: inline-block;
-      margin-left: -3px;
+      margin-left: 4px;
       border-bottom: 1px solid #0771eb;
       padding: 4px 8px;
     }
+    #fileInstruction {
+      color: #85c4ff;
+      font-size: 13px;
+      display: block;
+      margin: 5px 0 10px 0;
+    }
     #description {
       color: #fff;
-      margin-top:-17px;
-      padding-bottom:20px;
+      padding-bottom: 8px;
     }
     #searchContainer {
       display: flex;
       justify-content: center;
-      margin-top: 30px;
-      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
     #searchInput {
       background-color: transparent;
       border: 1px solid #0771eb;
       color: #0771eb;
-      padding: 6px 12px;
+      padding: 6px 10px;
       font-size: 14px;
       width: 80%;
       max-width: 400px;
@@ -149,41 +164,51 @@
       gap: 0px;
       z-index: 100;
     }
-
     #scrollButtons button {
       background-color: #0771eb;
       color: white;
       border: none;
       font-size: 18px;
-      padding: 10px;
-      font-family: monospace;
+      padding: 8px 10px;
       cursor: pointer;
+      margin-bottom: 4px;
     }
-
+    #scrollButtons button:last-child {
+      margin-bottom: 0;
+    }
+    p {
+      margin: 8px 0;
+      padding: 0;
+    }
+    h1, h3 {
+      margin: 0 0 8px 0;
+      padding: 0;
+    }
   </style>
 </head>
 <body>
-           <div class="sticky-header">
+  <div class="sticky-header">
     <h1>Blue Wyvern</h1>
     <div id="description">J2ME Text Editor</div>
+    <nav id="navLinks">
+      <a href="#apa-ini">Apa ini?</a>
+      <a href="#cara-menggunakan">Cara menggunakan</a>
+    </nav>
     <label for="fileInput" id="customFileLabel">Pilih File</label>
     <input type="file" id="fileInput" accept=".bin" style="display: none;" />
     <span id="fileNameDisplay">Tidak ada file yang dipilih</span>
-
-<input type="file" id="txtInput" accept=".txt" style="display:none;" />
-<p>
-<button id="extractButton" onclick="extractToTxt()" style="display:none;">Ekstrak ke TXT</button>
-
-<button id="insertButton" onclick="document.getElementById('txtInput').click()" style="display:none;">Insert TXT</button>
-
+    <span id="fileInstruction">Silakan pilih file BIN J2ME yang akan diedit.</span>
+    <input type="file" id="txtInput" accept=".txt" style="display:none;" />
+    <p>
+      <button id="extractButton" onclick="extractToTxt()" style="display:none;">Ekstrak ke TXT</button>
+      <button id="insertButton" onclick="document.getElementById('txtInput').click()" style="display:none;">Insert TXT</button>
+    </p>
     <div id="searchContainer" style="display:none;">
       <input type="text" id="searchInput" placeholder="Cari teks..." oninput="filterTextList()"/>
     </div>
   </div>
-
   <div id="textList"></div>
   <button id="saveButton" onclick="saveFile()" style="display:none;">Simpan</button>
-
   <div id="overlay"></div>
   <div id="editorModal">
     <h3>Edit Teks</h3>
@@ -192,68 +217,64 @@
     <button onclick="saveEdit()">Ok</button>
     <button onclick="closeModal()">Batal</button>
   </div>
-<div id="scrollButtons">
-  <button id="scrollUp" onclick="scrollToTop()" style="display:none;">↑</button>
-  <button id="scrollDown" onclick="scrollToBottom()" style="display:none;">↓</button>
-</div>
- <script>
+  <div id="scrollButtons">
+    <button id="scrollUp" onclick="scrollToTop()" style="display:none;">↑</button>
+    <button id="scrollDown" onclick="scrollToBottom()" style="display:none;">↓</button>
+  </div>
+  <script>
     let binaryData = null;
     let texts = [];
     let currentEditIndex = null;
     let originalFileName = "updated_file.bin";
 
-   document.getElementById('txtInput').addEventListener('change', function (event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const text = e.target.result.replace(/\r\n/g, '\n');
-    const lines = text.split('\n');
-
-    const entries = [];
-    let buf = null;
-
-    for (const line of lines) {
-      const m = line.match(/^\s*\d+\.\s?(.*)$/); // baris diawali angka.
-      if (m) {
-        if (buf !== null) entries.push(buf);
-        buf = m[1]; // mulai item baru tanpa angka
-      } else {
-        if (buf === null) {
-          buf = line;
-        } else {
-          buf += '\n' + line;
+    document.getElementById('txtInput').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const text = e.target.result.replace(/\r\n/g, '\n');
+        const lines = text.split('\n');
+        const entries = [];
+        let buf = null;
+        for (const line of lines) {
+          const m = line.match(/^\s*\d+\.\s?(.*)$/); // baris diawali angka.
+          if (m) {
+            if (buf !== null) entries.push(buf);
+            buf = m[1]; // mulai item baru tanpa angka
+          } else {
+            if (buf === null) {
+              buf = line;
+            } else {
+              buf += '\n' + line;
+            }
+          }
         }
-      }
-    }
-    if (buf !== null) entries.push(buf);
-
-    const n = Math.min(texts.length, entries.length);
-    for (let i = 0; i < n; i++) {
-      texts[i].text = entries[i];
-    }
-
-    displayTextList();
-    alert(`Insert TXT selesai: ${n}/${texts.length} item diganti.`);
-  };
-
-  reader.readAsText(file, 'utf-8');
-});
- document.getElementById('fileInput').addEventListener('change', function(event) {
+        if (buf !== null) entries.push(buf);
+        const n = Math.min(texts.length, entries.length);
+        for (let i = 0; i < n; i++) {
+          texts[i].text = entries[i];
+        }
+        displayTextList();
+        alert(`Insert TXT selesai: ${n}/${texts.length} item diganti.`);
+      };
+      reader.readAsText(file, 'utf-8');
+    });
+    document.getElementById('fileInput').addEventListener('change', function(event) {
       const file = event.target.files[0];
       if (file) {
         document.getElementById('fileNameDisplay').textContent = file.name;
+        // Sembunyikan instruksi setelah file diunggah
+        document.getElementById('fileInstruction').style.display = "none";
         readFile(file);
       }
     });
 
     function isValidString(bytes) {
-  for (let i = 0; i < bytes.length; i++) {
-    if (bytes[i] < 32 && bytes[i] !== 10 && bytes[i] !== 13) return false;
-  }
-  return true;
-}
+      for (let i = 0; i < bytes.length; i++) {
+        if (bytes[i] < 32 && bytes[i] !== 10 && bytes[i] !== 13) return false;
+      }
+      return true;
+    }
 
     function readFile(file) {
       originalFileName = file.name;
@@ -262,44 +283,39 @@
         binaryData = new Uint8Array(event.target.result);
         parseBinaryData(binaryData);
         document.getElementById("saveButton").style.display = "inline-block"; 
-document.getElementById("extractButton").style.display = "inline-block";
-document.getElementById("insertButton").style.display = "inline-block"; document.getElementById("searchContainer").style.display = "flex";
-document.getElementById("scrollUp").style.display = "inline-block";
-document.getElementById("scrollDown").style.display = "inline-block";
+        document.getElementById("extractButton").style.display = "inline-block";
+        document.getElementById("insertButton").style.display = "inline-block";
+        document.getElementById("searchContainer").style.display = "flex";
+        document.getElementById("scrollUp").style.display = "inline-block";
+        document.getElementById("scrollDown").style.display = "inline-block";
       };
       reader.readAsArrayBuffer(file);
     }
 
     function parseBinaryData(data) {
-  texts = [];
-  let index = 0;
-
-  while (index < data.length - 1) {
-    let length = (data[index] << 8) | data[index + 1];
-    if (length === 0 || index + 2 + length > data.length) {
-      index++;
-      continue;
-    }
-
-    const slice = data.slice(index + 2, index + 2 + length);
-
-    try {
-      let text = new TextDecoder('utf-8', { fatal: true }).decode(slice);
-
-      if (!isValidString(slice)) {
-        index++;
-        continue;
+      texts = [];
+      let index = 0;
+      while (index < data.length - 1) {
+        let length = (data[index] << 8) | data[index + 1];
+        if (length === 0 || index + 2 + length > data.length) {
+          index++;
+          continue;
+        }
+        const slice = data.slice(index + 2, index + 2 + length);
+        try {
+          let text = new TextDecoder('utf-8', { fatal: true }).decode(slice);
+          if (!isValidString(slice)) {
+            index++;
+            continue;
+          }
+          texts.push({ index, length, text });
+          index += 2 + length;
+        } catch (e) {
+          index++;
+        }
       }
-
-      texts.push({ index, length, text });
-      index += 2 + length;
-    } catch (e) {
-      index++;
+      displayTextList();
     }
-  }
-
-  displayTextList();
-}
 
     function displayTextList() {
       const container = document.getElementById("textList");
@@ -335,37 +351,30 @@ document.getElementById("scrollDown").style.display = "inline-block";
     }
 
     function saveFile() {
-  let result = [];
-  let lastPos = 0;
-  let currentTextIndex = 0;
-
-  texts.forEach(({ index, length, text }) => {
-    while (lastPos < index) {
-      result.push(binaryData[lastPos++]);
+      let result = [];
+      let lastPos = 0;
+      let currentTextIndex = 0;
+      texts.forEach(({ index, length, text }) => {
+        while (lastPos < index) {
+          result.push(binaryData[lastPos++]);
+        }
+        const encoded = new TextEncoder().encode(text);
+        const len = encoded.length;
+        result.push((len >> 8) & 0xff);
+        result.push(len & 0xff);
+        result.push(...encoded);
+        lastPos = index + 2 + length;
+      });
+      while (lastPos < binaryData.length) {
+        result.push(binaryData[lastPos++]);
+      }
+      const newData = new Uint8Array(result);
+      const blob = new Blob([newData], { type: 'application/octet-stream' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = originalFileName;
+      link.click();
     }
-
-    const encoded = new TextEncoder().encode(text);
-    const len = encoded.length;
-
-    result.push((len >> 8) & 0xff);
-    result.push(len & 0xff);
-
-    result.push(...encoded);
-
-    lastPos = index + 2 + length;
-  });
-
-  while (lastPos < binaryData.length) {
-    result.push(binaryData[lastPos++]);
-  }
-
-  const newData = new Uint8Array(result);
-  const blob = new Blob([newData], { type: 'application/octet-stream' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = originalFileName;
-  link.click();
-}
 
     function filterTextList() {
       const keyword = document.getElementById("searchInput").value.toLowerCase();
@@ -375,22 +384,20 @@ document.getElementById("scrollDown").style.display = "inline-block";
         item.style.display = content.includes(keyword) ? "block" : "none";
       });
     }
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function scrollToBottom() {
-  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-}
-
-function extractToTxt() {
-  let output = texts.map((item, idx) => `${idx + 1}. ${item.text}`).join("\n");
-  let blob = new Blob([output], { type: "text/plain;charset=utf-8" });
-  let link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = originalFileName.replace(/\.[^/.]+$/, "") + "_extracted.txt";
-  link.click();
-}
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function scrollToBottom() {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    function extractToTxt() {
+      let output = texts.map((item, idx) => `${idx + 1}. ${item.text}`).join("\n");
+      let blob = new Blob([output], { type: "text/plain;charset=utf-8" });
+      let link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = originalFileName.replace(/\.[^/.]+$/, "") + "_extracted.txt";
+      link.click();
+    }
   </script>
 </body>
 </html>
