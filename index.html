@@ -10,18 +10,56 @@
   <style>
     body {
       margin: 10px;
-      background-color: #000000;
-      color: #0771eb;
+      background-color: #000;
+      color: #777;
       padding-bottom: 10px;
       width: 90%;
       height: auto;
     }
+    p {
+      margin: 8px 0;
+      padding: 0;
+    }
+    h1, h3 {
+      margin: 0;
+    }
     .sticky-header {
+      color: #0771eb;
       position: sticky;
       top: 0;
       z-index: 10;
       background-color: transparent;
       padding-bottom: 10px;
+    }
+    #description {
+      color: #fff;
+      margin-bottom: 15px;
+    }
+    #fileNameDisplay {
+      color: #777;
+      display: inline-block;
+      margin-left: 4px;
+      border-bottom: 1px solid #ddd;
+      padding: 4px 8px;
+    }   
+    #searchContainer {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    #searchInput {
+      background-color: transparent;
+      border: 1px solid #ddd;
+      color: #777;
+      padding: 6px 10px;
+      font-size: 14px;
+      width: 80%;
+      max-width: 400px;
+    }
+    #searchInput:focus {
+      outline: none;
+      border-color: #0d4cbf;
     }
     input[type="file"] {
       margin-bottom: 10px;
@@ -30,7 +68,8 @@
       cursor: pointer;
     }
     .text-item {
-      border-bottom: 1px solid #0771eb;
+      font-size: small;
+      border-bottom: 2px dashed #222;
       padding: 8px 0px;
       cursor: pointer;
     }
@@ -39,20 +78,8 @@
     }
     .text-index {
       margin-right: 8px;
-      font-weight: bold;
     }
-    #saveButton {
-      position: fixed;
-      bottom: 10px;
-      left: 5%;
-      padding: 8px 10px;
-      font-size: 16px;
-      background-color: #0771eb;
-      color: #ffffff;
-      border: none;
-      cursor: pointer;
-      z-index: 100;
-    }
+
     #editorModal {
       display: none;
       position: fixed;
@@ -64,14 +91,17 @@
       z-index: 1000;
       width: 80%;
       max-width: 600px;
-      color: #0771eb;
+      color: #fff;
+      font-weight: bold;
     }
     #editorModal textarea {
+      font-size: small;
+      font-family: monospace;
       width: 100%;
       height: 150px;
-      color: #0771eb;
+      color: #777;
       background-color: transparent;
-      border: 1px solid #0771eb;
+      border: 1px solid #ddd;
       padding: 8px 8px;
     }
     #editorModal textarea:focus {
@@ -94,51 +124,16 @@
       background: rgba(0, 0, 0, 0.7);
       z-index: 999;
     }
-    #customFileLabel, #extractButton, #insertButton {
+    #customFileLabel, #extractButton, #insertButton, #saveButton {
       display: inline-block;
       background-color: #0771eb;
       color: #ffffff;
       padding: 6px 10px;
       cursor: pointer;
       border: none;
-      font-size: 14px;
+      font-size: large;
       margin-right: 4px;
       margin-bottom: 8px;
-    }
-    #fileNameDisplay {
-      display: inline-block;
-      margin-left: 4px;
-      border-bottom: 1px solid #0771eb;
-      padding: 4px 8px;
-    }
-    #fileInstruction {
-      color: #85c4ff;
-      font-size: 13px;
-      display: block;
-      margin: 5px 0 10px 0;
-    }
-    #description {
-      color: #fff;
-      margin-bottom: 10px;
-    }
-    #searchContainer {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    #searchInput {
-      background-color: transparent;
-      border: 1px solid #0771eb;
-      color: #0771eb;
-      padding: 6px 10px;
-      font-size: 14px;
-      width: 80%;
-      max-width: 400px;
-    }
-    #searchInput:focus {
-      outline: none;
-      border-color: #0d4cbf;
     }
     #scrollButtons {
       position: fixed;
@@ -161,13 +156,6 @@
     #scrollButtons button:last-child {
       margin-bottom: 0;
     }
-    p {
-      margin: 8px 0;
-      padding: 0;
-    }
-    h1, h3 {
-      margin: 0;
-    }
   </style>
 </head>
 <body>
@@ -181,13 +169,13 @@
     <p>
       <button id="extractButton" onclick="extractToTxt()" style="display:none;">Ekstrak ke TXT</button>
       <button id="insertButton" onclick="document.getElementById('txtInput').click()" style="display:none;">Insert TXT</button>
+      <button id="saveButton" onclick="saveFile()" style="display:none;">Simpan</button>
     </p>
     <div id="searchContainer" style="display:none;">
       <input type="text" id="searchInput" placeholder="Cari teks..." oninput="filterTextList()"/>
     </div>
   </div>
   <div id="textList"></div>
-  <button id="saveButton" onclick="saveFile()" style="display:none;">Simpan</button>
   <div id="overlay"></div>
   <div id="editorModal">
     <h3>Edit Teks</h3>
