@@ -176,8 +176,8 @@
     <span id="fileNameDisplay">Tidak ada file yang dipilih</span>
     <input type="file" id="txtInput" accept=".txt" style="display:none;" />
     <p>
-      <button id="extractButton" onclick="extractToTxt()" style="display:none;">Ekstrak ke TXT</button>
-      <button id="insertButton" onclick="document.getElementById('txtInput').click()" style="display:none;">Insert TXT</button>
+      <button id="extractButton" onclick="extractToTxt()" style="display:none;">Ekspor</button>
+      <button id="insertButton" onclick="document.getElementById('txtInput').click()" style="display:none;">Import</button>
       <button id="saveButton" onclick="saveFile()" style="display:none;">Simpan</button>
     </p>
     <div id="searchContainer" style="display:none;">
@@ -371,7 +371,7 @@
       let blob = new Blob([output], { type: "text/plain;charset=utf-8" });
       let link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = originalFileName.replace(/\.[^/.]+$/, "") + "_extracted.txt";
+      link.download = originalFileName.replace(/\.[^/.]+$/, "") + ".txt";
       link.click();
     }
   </script>
