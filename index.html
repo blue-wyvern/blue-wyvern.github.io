@@ -133,7 +133,7 @@
       background: rgba(0, 0, 0, 0.7);
       z-index: 999;
     }
-    #customFileLabel, #extractButton, #insertButton, #saveButton {
+    #customFileLabel, #eksporButton, #imporButton, #saveButton {
       display: inline-block;
       background-color: #0771eb;
       color: #ffffff;
@@ -176,8 +176,8 @@
     <span id="fileNameDisplay">Tidak ada file yang dipilih</span>
     <input type="file" id="txtInput" accept=".txt" style="display:none;" />
     <p>
-      <button id="extractButton" onclick="extractToTxt()" style="display:none;">Ekspor</button>
-      <button id="insertButton" onclick="document.getElementById('txtInput').click()" style="display:none;">Import</button>
+      <button id="eksporButton" onclick="eksporToTxt()" style="display:none;">Ekspor</button>
+      <button id="imporButton" onclick="document.getElementById('txtInput').click()" style="display:none;">Impor</button>
       <button id="saveButton" onclick="saveFile()" style="display:none;">Simpan</button>
     </p>
     <div id="searchContainer" style="display:none;">
@@ -231,7 +231,7 @@
           texts[i].text = entries[i];
         }
         displayTextList();
-        alert(`Insert TXT selesai: ${n}/${texts.length} item diganti.`);
+        alert(`impor TXT selesai: ${n}/${texts.length} item diganti.`);
       };
       reader.readAsText(file, 'utf-8');
     });
@@ -259,8 +259,8 @@
         binaryData = new Uint8Array(event.target.result);
         parseBinaryData(binaryData);
         document.getElementById("saveButton").style.display = "inline-block"; 
-        document.getElementById("extractButton").style.display = "inline-block";
-        document.getElementById("insertButton").style.display = "inline-block";
+        document.getElementById("eksporButton").style.display = "inline-block";
+        document.getElementById("imporButton").style.display = "inline-block";
         document.getElementById("searchContainer").style.display = "flex";
         document.getElementById("scrollUp").style.display = "inline-block";
         document.getElementById("scrollDown").style.display = "inline-block";
@@ -366,7 +366,7 @@
     function scrollToBottom() {
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
-    function extractToTxt() {
+    function eksporToTxt() {
       let output = texts.map((item, idx) => `${idx + 1}. ${item.text}`).join("\n");
       let blob = new Blob([output], { type: "text/plain;charset=utf-8" });
       let link = document.createElement("a");
