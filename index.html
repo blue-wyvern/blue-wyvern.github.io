@@ -367,20 +367,25 @@
     }
     
     function eksporToTxt() {
-    
   let output = texts.map((item, idx) => `${idx + 1}. ${item.text}`).join("\n");
   
-  const BOM = "\uFEFF";
-  const finalOutput = BOM + output;
+  const encoder = new TextEncoder();
+  const encodedText = encoder.encode(output);
 
-  let blob = new Blob([finalOutput], { type: "text/plain;charset=utf-8" });
+  const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+  
+  const finalContent = new Uint8Array(bom.length + encodedText.length);
+  finalContent.set(bom, 0);
+  finalContent.set(encodedText, bom.length);
+
+  let blob = new Blob([finalContent], { type: "text/plain;charset=utf-8" });
   
   let link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  
   link.download = originalFileName.replace(/\.[^/.]+$/, "") + ".txt";
   link.click();
 }
+
   </script>
 </body>
 </html>
