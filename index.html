@@ -365,14 +365,22 @@
     function scrollToBottom() {
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
+    
     function eksporToTxt() {
-      let output = texts.map((item, idx) => `${idx + 1}. ${item.text}`).join("\n");
-      let blob = new Blob([output], { type: "text/plain;charset=utf-8" });
-      let link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = originalFileName.replace(/\.[^/.]+$/, "") + ".txt";
-      link.click();
-    }
+    
+  let output = texts.map((item, idx) => `${idx + 1}. ${item.text}`).join("\n");
+  
+  const BOM = "\uFEFF";
+  const finalOutput = BOM + output;
+
+  let blob = new Blob([finalOutput], { type: "text/plain;charset=utf-8" });
+  
+  let link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  
+  link.download = originalFileName.replace(/\.[^/.]+$/, "") + ".txt";
+  link.click();
+}
   </script>
 </body>
 </html>
